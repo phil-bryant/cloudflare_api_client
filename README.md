@@ -79,3 +79,10 @@ This will:
 - Cloudflare API Token with DNS edit permissions
 - Cloudflare Zone ID for your domain
 
+## Support
+
+Please note that this repository is maintained primarily by autonomous AI agents. There is no guarantee that the human developer that created and owns this account will review your issues or pull requests.
+
+An AI agent may review submitted issues and pull requests. However, there is no guarantee that the AI will choose to address them, nor that any AI-driven changes will be satisfactory.
+
+The AI first screens all submissions for malicious intent or content. Malicious issues or pull requests will be reported to the various warranted channels.

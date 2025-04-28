@@ -156,18 +156,13 @@ git commit -m "Initial commit"
 
 # Create repository on GitHub
 echo "Creating repository $REPO_SPEC with $VISIBILITY visibility..."
-if ! gh repo create "$REPO_SPEC" --"$VISIBILITY" --source=. --remote=origin --push 2>/tmp/gh_create_error; then
+
+# First create the repository without setting the remote or pushing
+if ! gh repo create "$REPO_SPEC" --"$VISIBILITY" --source=. --push=false 2>/tmp/gh_create_error; then
     # Check if error is that repo already exists but we should continue
     if grep -q "Name already exists" /tmp/gh_create_error && [ "$REMOVE_EXISTING" = true ]; then
         echo "Repository already exists but --remove-existing was specified."
         echo "Attempting to connect to the existing repository..."
-        
-        # Add remote and push
-        git remote add origin "$REPO_URL"
-        if ! git push -f origin main; then
-            echo "ERROR: Failed to push to existing repository."
-            exit 1
-        fi
     else
         echo "Failed to create repository:"
         cat /tmp/gh_create_error
@@ -175,4 +170,30 @@ if ! gh repo create "$REPO_SPEC" --"$VISIBILITY" --source=. --remote=origin --pu
     fi
 fi
 
+# Now set the remote with SSH URL
+echo "Setting up remote with SSH URL: $REPO_URL"
+if git remote get-url origin &>/dev/null; then
+    # Remote exists, update it
+    git remote set-url origin "$REPO_URL"
+else
+    # Remote doesn't exist, add it
+    git remote add origin "$REPO_URL"
+fi
+
+# Push to the remote
+if ! git push -u origin main; then
+    echo "ERROR: Failed to push to repository."
+    exit 1
+fi
+
 echo "Repository $REPO_NAME created/updated and initialized with current directory contents"
+echo "Using SSH URL: $REPO_URL"
+
+# Verify the remote URL is using SSH
+REMOTE_URL=$(git remote get-url origin)
+if [[ "$REMOTE_URL" != git@* ]]; then
+    echo "WARNING: Remote URL is not using SSH format. Current URL: $REMOTE_URL"
+    echo "Updating to SSH URL: $REPO_URL"
+    git remote set-url origin "$REPO_URL"
+    echo "Remote URL updated to use SSH"
+fi

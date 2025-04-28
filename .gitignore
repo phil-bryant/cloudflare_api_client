@@ -1,0 +1,8 @@
+# #authored-by-ai #gemini-2.5-pro
+# #autonomous-ai #cursor
+# SPDX-License-Identifier: MIT
+
+**/*-venv/
+**/__pycache__
+**/.pytest_cache
+**/.DS_Store

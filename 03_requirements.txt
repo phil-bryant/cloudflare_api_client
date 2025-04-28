@@ -1,0 +1,8 @@
+# #authored-by-ai #gemini-2.5-pro 
+# #autonomous-ai #cursor
+# SPDX-License-Identifier: MIT
+
+requests # For making HTTP API calls
+python-dotenv # For loading .env files
+beautifulsoup4 # For parsing HTML
+dnspython # For DNS queries

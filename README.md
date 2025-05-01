@@ -39,6 +39,19 @@ This repository contains a collection of Python scripts for interacting with the
 - `13_verify_delete_dns_record.py` - Verifies that a DNS record was successfully deleted from Cloudflare.
 - `14_review_dns_records.py` - Interactive tool to review all DNS records in a Cloudflare zone, with options to verify or delete each record.
 
+#### Vercel and General CNAME/A Record Scripts
+
+- `15_configure_vercel_web_deployment.py` - Configures the necessary A record (pointing to `76.76.21.21`) for a Vercel web deployment on the root domain.
+  - Usage: `./15_configure_vercel_web_deployment.py yourdomain.com [--debug]`
+- `16_verify_vercel_web_propagation.py` - Verifies that the Vercel A record has propagated to public DNS (Google, Cloudflare, Quad9) and optionally checks against the Cloudflare API.
+  - Reads record ID from `15.output.record_id.txt` for API check.
+  - Usage: `./16_verify_vercel_web_propagation.py <zone_domain>`
+- `17_add_domain_cname.py` - Adds a general CNAME record to the specified domain.
+  - Usage: `./17_add_domain_cname.py <zone_domain> <cname_name> <cname_target> [--debug]` (e.g., `./17_add_domain_cname.py example.com www target.example.com`)
+- `18_verify_cname_propagation.py` - Verifies that a CNAME record has propagated to public DNS (Google, Cloudflare, Quad9) and optionally checks against the Cloudflare API.
+  - Reads record details from `17.output.record_details.json`.
+  - Usage: `./18_verify_cname_propagation.py <zone_domain>`
+
 ## Usage
 
 ### Environment Setup
